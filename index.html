@@ -266,13 +266,24 @@
         document.getElementById('continueButton').classList.remove('hidden'); // Mostra o botão "Continuar"
     });
 
-    document.getElementById('payButton').addEventListener('click', function() {
+     // Forma antiga de pagar
+    /*document.getElementById('payButton').addEventListener('click', function() {
         var selectedValue = document.querySelector('input[name="value"]:checked').value;
         var total = parseInt(selectedValue) + 5;
         var message = "Quero concluir o meu pedido #TINDER" + selectedValue + "\n\nDetalhes do pedido\n1x R$ " + selectedValue + " (Tinder)\n1x R$ 5 (Taxa de processamento)";
         var whatsappUrl = "https://api.whatsapp.com/send?phone=553398801838&text=" + encodeURIComponent(message);
         window.location.href = whatsappUrl;
-    });
+    });*/
+   
+    // Nova forma de pagar
+    document.getElementById('payButton').addEventListener('click', function() {
+    var selectedValue = document.querySelector('input[name="value"]:checked').value;
+    var total = parseInt(selectedValue) + 5;
+    
+    // Constrói a URL de checkout corretamente
+    var checkoutUrl = "https://connectstore.github.io/checkout?payment=" + total + "&product=Tinder" + "&price=" + selectedValue;
+    window.location.href = checkoutUrl;
+});
     </script>
 </body>
 </html>
