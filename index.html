@@ -2,6 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vendas de Gift Card</title>
     <style>
@@ -236,6 +237,14 @@
             text-align: center;
             margin-bottom: 8px;
         }
+        
+         .popup .feeclick {
+            font-size: 15px;
+            color: #FD3078;
+            border-radius: 4px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
 
         .popup .message {
             font-size: 16px;
@@ -267,6 +276,19 @@
             margin-top: 20px;
             margin-bottom: 10px;
         }
+        
+         .bottom-buttonfix {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      background: linear-gradient(90deg, #FF6F58, #FD3078); /* Azul e Vermelho */
+      color: white;
+      text-align: center;
+      padding: 15px;
+      border-radius: 8px;
+      z-index: 100;
+    }
 
         .cancel-button {
             background: linear-gradient(90deg, #B22234, #FF0000); /* Vermelho e Vermelho escuro */
@@ -301,46 +323,125 @@
             margin-top: -12px;
         }
         
-         .adcard {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .adcard img {
-            width: 50px;
-            height: 50px;
-        }
-        .adcard-content {
-            max-width: 80%;
-        }
-        .adcard-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333333;
-            margin-bottom: 5px;
-        }
-        .adcard-text {
-            font-size: 14px;
-            color: #666666;
-            margin-bottom: 5px;
-        }
-        .adcard-text strong {
-            color: #212121;
-        }
-        .adcard-text.green {
-        	font-size: 16px;
-            color: #FF6F58;
-            font-weight: bold;
-        }
-        .adhighlight-card {
-            background-color: #f5f5f5;
-            border-left: 5px solid #FF6F58;
-        }
+        .adcard {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative; /* Adicionado para permitir o posicionamento absoluto do ícone */
+}
+
+.adcard img {
+    width: 50px;
+    height: 50px;
+}
+
+.adcard-content {
+    width: 100%;
+}
+
+.adcard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.adcard-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+.toggle-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #212121;
+    transition: transform 0.3s ease;
+    position: absolute;
+    top: 20px; /* Ajuste a posição do ícone */
+    right: 20px; /* Posiciona no canto superior direito */
+}
+
+.adcard.expanded .toggle-icon {
+    transform: rotate(180deg); /* Rotaciona a seta quando expandido */
+}
+
+.adcard-text {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+}
+
+.adcard.expanded .adcard-text {
+    white-space: normal;
+    text-overflow: unset;
+}
+
+.adcard-text strong {
+    color: #212121;
+}
+
+.adcard-text.green {
+    font-size: 16px;
+    color: green;
+}
+
+.adhighlight-card {
+    background-color: #f5f5f5;
+    border-left: 5px solid #FF6F58;
+}
+       
+       .highlightblackfriday {
+            background: linear-gradient(90deg, #4E75AF, #4E75AF);
+            color: #FFFFFF;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin-left: 3px;
+        }        
         
+     .tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.toast-tooltip {
+  display: none;
+  position: absolute;
+  top: 28px; /* ajusta a posição abaixo do ícone */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  max-width: 240px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.toast-tooltip::after {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent transparent #333 transparent;
+}
+
     </style>
 </head>
 <body>
@@ -370,6 +471,10 @@
      <div class="adcard-title">
      Desbloqueie o melhor do Tinder
 </div>
+<!-- Ícone de seta para expandir/contrair, posicionado no canto superior direito -->
+    <button class="toggle-icon" onclick="toggleCard(this)">
+      <i class="fas fa-chevron-down"></i> <!-- Ícone de seta para baixo -->
+    </button>
 <div class="adcard-text">
 Curtidas e voltas ilimitadas, conexões globais, destaque diário, privacidade total, sem anúncios, Super Likes semanais, Boost mensal e veja quem curtiu você.
 </div>
@@ -399,16 +504,43 @@ Curtidas e voltas ilimitadas, conexões globais, destaque diário, privacidade t
     </div>
 
 <div class="popup" id="paymentPopup">
-        <div class="summary">Valor final do pedido</div>
-        <div class="total" id="orderTotal">R$ 20</div>
-        <div class="fee">Para processamento e emissão do cartão pré-pago incluímos uma taxa de R$ 5.</div>
-        <button href="#" class="button" id="payButton">REALIZAR PAGAMENTO</button>
-        <button class="button cancel-button" id="cancelButton">CANCELAR PEDIDO</button>
+    <div class="summary">
+  Valor final do pedido 
+  <span class="tooltip-wrapper">
+    <i class="fas fa-question-circle info-icon" onclick="showFeeToast()"></i>
+    <div class="toast-tooltip" id="toastTooltip">
+      Para processamento e emissão do código do cartão pré-pago, incluímos uma taxa de serviço de R$ 5.
     </div>
+  </span>
+</div>
 
-<button class="button bottom-button" id="continueButton">CONTINUAR</button>
+    <div class="total" id="orderTotal">R$ 20</div>      
+    
+    <div class="fee">Ao continuar, você aceita os <a class="feeclick" href="https://connectstore.github.io/terms">Termos e Condições</a> do produto. Após concluir a compra, o Gift Card não poderá ser cancelado ou reembolsado.</div>
+
+    <button href="#" class="button pay-button" id="payButton">REALIZAR PAGAMENTO</button>
+    <button class="toggle-icon" id="cancelButton">
+     <i class="fas fa-chevron-down"></i>
+     </button>
+</div>
+
+<button class="button bottom-buttonfix" id="continueButton">CONTINUAR</button>
 
  <script>
+ 	// Codigo mostrar taxa
+        function showFeeToast() {
+  const tooltip = document.getElementById("toastTooltip");
+  tooltip.style.display = "block";
+
+  setTimeout(() => {
+    tooltip.style.display = "none";
+  }, 4000); // Exibe por 4 segundos
+}
+
+function toggleCard(button) {
+  const card = button.closest('.adcard');
+  card.classList.toggle('expanded');
+}
     // Oculta o botão "Continuar" ao abrir a página.
     document.getElementById('continueButton').classList.add('hidden');
     
