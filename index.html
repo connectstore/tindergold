@@ -1,606 +1,931 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vendas de Gift Card</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #FFFFFF;
-            box-sizing: border-box;
-        }
-
-        .toolbar {
-            background: linear-gradient(90deg, #FF6F58, #FD3078); /* Azul e Vermelho */
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        .toolbar .header {
-            display: flex;
-            align-items: center;
-            padding: 0;
-        }
-
-        .header .logo {
-            display: flex;
-            align-items: center;
-            margin-right: 10px;
-        }
-
-        .header .logo img {
-            padding: 5px;
-            width: 40px;
-            margin-right: -2.5px;
-        }
-
-        .header .title,
-        .header .powered-by {
-            text-align: left;
-            margin-top: -12px;
-        }
-
-        .header .title {
-            font-size: 30px;
-            font-weight: bold;
-            color: #FFFFFF;
-            white-space: nowrap;
-        }
-
-        .header .powered-by {
-            font-size: 16px;
-            color: #FFFFFF;
-            white-space: nowrap;
-        }
-
-        .header .profile {
-            flex-grow: 1;
-            text-align: right;
-        }
-
-        .header .profile img {
-            max-height: 200px;
-            object-fit: cover;
-        }
-
-        .toolbar-options {
-            background-color: #FFFFFF;
-            display: flex;
-            padding: 0;
-            margin: 0;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            box-sizing: border-box;
-            margin-top: -3px;
-        }
-
-        .toolbar-options .option {
-            flex: 1;
-            text-align: center;
-            padding: 15px;
-            margin: 0;
-            font-size: 16px;
-        }
-
-        .toolbar-options .option.active {
-            color: #FF6F58; /* Vermelho */
-            font-weight: bold;
-            border-bottom: 2px solid #FF6F58;
-        }
-
-        .toolbar-options .option.inactive {
-            color: #757575;
-        }
-
-        .content {
-            padding: 8px;
-        }
-
-        .content .section-title {
-            text-align: center;
-            color: #616161;
-            margin-bottom: 8px;
-        }
-
-        .container {
-            max-width: 500px;
-            background-color: #ffffff;
-            padding: 20px;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card {
-            margin: 10px 0;
-            padding: 15px;
-            background-color: #f5f5f5;
-            display: flex;
-            align-items: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .card.selected {
-            border: 2px solid #FF6F58; /* Vermelho */
-            transform: scale(1.05);
-        }
-
-        .highlight {
-            background: linear-gradient(90deg, #FF6F58, #FD3078); /* Azul e Vermelho */
-            color: #FFFFFF;
-            padding: 5px 10px;
-            border-radius: 20px;
-            margin-left: 3px;
-        }
-        
-        .highlightsave {
-            background: #757575;
-            color: #FFFFFF;
-            padding: 5px 10px;
-            border-radius: 20px;
-            margin-left: 3px;
-        }
-        
-        .highlightblackfriday {
-            background: linear-gradient(90deg, #000000, #000000);
-            color: #FFFFFF;
-            padding: 5px 10px;
-            border-radius: 20px;
-            margin-left: 3px;
-        }
-
-        .title {
-            font-size: 30px;
-            color: #333333;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            font-size: 16px;
-            color: #666666;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .value {
-            flex-grow: 1;
-            font-size: 20px;
-            color: #333333;
-            margin-left: 10px;
-        }
-
-        .popup {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding-top: 32px;
-            padding-bottom: 8px;
-            background-color: #ffffff;
-            box-shadow: 0px -4px 8px rgba(0, 0, 0, 0.2);
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-            transition: transform 0.3s ease-in-out;
-            transform: translateY(100%);
-            max-height: 50%;
-            overflow-y: auto;
-        }
-
-        .popup.active {
-            display: block;
-            transform: translateY(0);
-        }
-
-        .popup .close {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .popup .summary {
-            font-size: 20px;
-            color: #616161;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        .popup .total {
-            font-size: 40px;
-            color: #616161;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        .popup .fee {
-            font-size: 16px;
-            padding: 8px;
-            color: #616161;
-            border-radius: 4px;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-        
-         .popup .feeclick {
-            font-size: 15px;
-            color: #FD3078;
-            border-radius: 4px;
-            text-align: center;
-            margin-bottom: 8px;
-        }
-
-        .popup .message {
-            font-size: 16px;
-            color: #616161;
-            margin: 10px 0;
-            text-align: center;
-        }
-
-        .button {
-            max-width: 350px;
-            margin: 8px 0;
-            display: block;
-            margin: 0 auto;
-            width: 100%;
-            padding: 14px;
-            text-align: center;
-            font-size: 18px;
-            color: #FFFFFF;
-            background: linear-gradient(90deg, #FF6F58, #FD3078); /* Azul e Vermelho */
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .bottom-button {
-            position: relative;
-            background: linear-gradient(90deg, #FF6F58, #FD3078); /* Azul e Vermelho */
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-        
-         .bottom-buttonfix {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
-      background: linear-gradient(90deg, #FF6F58, #FD3078); /* Azul e Vermelho */
-      color: white;
-      text-align: center;
-      padding: 15px;
-      border-radius: 8px;
-      z-index: 100;
+        font-family: 'Poppins', sans-serif;
+        background-color: #ffffff;
+        min-height: 100vh;
+        padding-bottom: 140px; /* Space for combined bottom bar */
+        color: #333;
     }
-
-        .cancel-button {
-            background: linear-gradient(90deg, #B22234, #FF0000); /* Vermelho e Vermelho escuro */
-            margin-top: 10px;
-            margin-bottom: 10px;
+    
+    .container {
+        max-width: 540px;
+        margin: 0 auto;
+        padding: 0 16px;
+    }
+    
+    /* Header Styles */
+    .header-gradient {
+        background: linear-gradient(90deg, #ff385c 0%, #ff7676 100%);
+        color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    .header-content {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+    }
+    
+    .header-logo {
+        display: flex;
+        align-items: center;
+    }
+    
+    .header-logo svg {
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+    }
+    
+    .header-title {
+        font-size: 20px;
+        font-weight: 700;
+    }
+    
+    /* Main Content Styles */
+    .main-content {
+        padding: 24px 0;
+    }
+    
+    .section-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+    }
+    
+    .section-subtitle {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 30px;
+    }
+    
+    /* Plan Cards */
+    .plan-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+    
+    .plan-card {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        position: relative;
+    }
+    
+    .plan-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .plan-card.selected {
+        border-color: #ff385c;
+        background-color: rgba(255, 56, 92, 0.05);
+    }
+    
+    .plan-card-content {
+        text-align: center;
+    }
+    
+    .plan-title {
+        font-weight: 600;
+        color: #444;
+        margin-bottom: 4px;
+    }
+    
+    .plan-price {
+        font-size: 20px;
+        font-weight: 700;
+        color: #ff385c;
+    }
+    
+    .plan-monthly {
+        font-size: 12px;
+        color: #777;
+        margin-top: 4px;
+    }
+    
+    .badge {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background-color: #ff385c;
+        color: white;
+        font-size: 12px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        transform: rotate(15deg);
+    }
+    
+    .badge.green {
+        background-color: #10b981;
+    }
+    
+    .badge.blue {
+        background-color: #3b82f6;
+    }
+    
+    .badge.orange {
+        background-color: #f59e0b;
+    }
+    
+    /* Benefits Section */
+    .benefits-section {
+        border: 1px solid #f3f4f6;
+        background-color: #fafafa;
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 24px;
+    }
+    
+    .benefits-title {
+        color: #444;
+        font-weight: 500;
+        margin-bottom: 12px;
+        text-align: center;
+    }
+    
+    .benefit-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    
+    .benefit-item:last-child {
+        margin-bottom: 0;
+    }
+    
+    .benefit-icon {
+        width: 24px;
+        height: 24px;
+        background-color: #fce7eb;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+    }
+    
+    .benefit-icon svg {
+        width: 12px;
+        height: 12px;
+        color: #ff385c;
+    }
+    
+    .benefit-text {
+        font-size: 14px;
+        color: #666;
+    }
+    
+    /* Tab Content */
+    .tab-content {
+        display: none;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    /* FAQ Styles */
+    .faq-container {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+    
+    .faq-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 24px;
+    }
+    
+    .faq-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+    
+    .faq-item {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+    }
+    
+    .faq-question h3 {
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .faq-question svg {
+        width: 20px;
+        height: 20px;
+        color: #777;
+        transition: transform 0.3s ease;
+    }
+    
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+    
+    .faq-answer p {
+        font-size: 14px;
+        color: #666;
+        padding-top: 8px;
+    }
+    
+    .faq-item.active .faq-answer {
+        max-height: 500px;
+    }
+    
+    .faq-item.active .faq-question svg {
+        transform: rotate(180deg);
+    }
+    
+    /* Support Section */
+    .support-section {
+        text-align: center;
+        margin-top: 32px;
+    }
+    
+    .support-text {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 16px;
+    }
+    
+    .support-button {
+        background-color: #f3f4f6;
+        color: #333;
+        font-weight: 500;
+        padding: 8px 24px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+    }
+    
+    .support-button:hover {
+        background-color: #e5e7eb;
+    }
+    
+    .support-button svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+    }
+    
+    /* Footer */
+    .footer {
+        text-align: center;
+        font-size: 12px;
+        color: #777;
+        margin-bottom: 80px;
+    }
+    
+    /* Bottom Container */
+    .bottom-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.9);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        z-index: 10;
+    }
+    
+    /* Payment Bar */
+    .payment-bar {
+        padding: 16px;
+        border-bottom: 1px solid #f3f4f6;
+    }
+    
+    .payment-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .selected-plan {
+        display: flex;
+        align-items: center;
+    }
+    
+    .selected-plan-name {
+        font-size: 16px;
+        font-weight: 700;
+        color: #333;
+    }
+    
+    .plan-separator {
+        margin: 0 8px;
+        color: #ccc;
+    }
+    
+    .selected-plan-price {
+        font-size: 16px;
+        font-weight: 700;
+        color: #ff385c;
+    }
+    
+    .cta-button {
+        background: linear-gradient(90deg, #ff385c 0%, #ff7676 100%);
+        color: white;
+        font-weight: 700;
+        font-size: 16px;
+        padding: 12px 24px;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 4px 6px rgba(255, 56, 92, 0.3);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+    }
+    
+    .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(255, 56, 92, 0.3);
+    }
+    
+    .cta-button svg {
+        width: 16px;
+        height: 16px;
+        margin-left: 8px;
+    }
+    
+    /* Bottom Navigation */
+    .bottom-nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 12px 16px;
+    }
+    
+    .tab-button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+    }
+    
+    .tab-button svg {
+        width: 24px;
+        height: 24px;
+        color: #777;
+    }
+    
+    .tab-button span {
+        font-size: 12px;
+        font-weight: 500;
+        color: #777;
+        margin-top: 4px;
+    }
+    
+    .tab-button.active svg {
+        color: #ff385c;
+    }
+    
+    .tab-button.active span {
+        color: #ff385c;
+    }
+    
+    /* Bottom Sheet */
+    .backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 40;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+    
+    .backdrop.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    
+    .bottom-sheet {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: white;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        z-index: 50;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+    }
+    
+    .bottom-sheet.active {
+        transform: translateY(0);
+    }
+    
+    .sheet-content {
+        padding: 24px;
+    }
+    
+    .sheet-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+    
+    .sheet-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    .close-button {
+        padding: 4px;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+    }
+    
+    .close-button:hover {
+        background-color: #f3f4f6;
+    }
+    
+    .close-button svg {
+        width: 24px;
+        height: 24px;
+        color: #777;
+    }
+    
+    .sheet-text {
+        color: #666;
+        margin-bottom: 24px;
+    }
+    
+    .confirm-button {
+        width: 100%;
+        background: linear-gradient(90deg, #ff385c 0%, #ff7676 100%);
+        color: white;
+        font-weight: 700;
+        font-size: 16px;
+        padding: 12px;
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 4px 6px rgba(255, 56, 92, 0.3);
+        cursor: pointer;
+    }
+    .termsclick {
+        font-size: 15px;
+        color: #FD3078;
+        border-radius: 4px;
+        text-align: center;
+        margin-bottom: 8px;
+        }
+    .logo {
+        width: 40px;
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+       margin-top: 0px;
         }
         
-       .cancel-button:hover {
-            background-color: #FF0000; /* Vermelho */
-        }
-
-        .pay-button {
-            background: linear-gradient(90deg, #FF6F58, #FD3078); /* Azul e Vermelho */
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        input[type="radio"] {
-            display: none;
-        }
-
-        .logo {
-            width: 50px;
-            height: auto;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            margin-top: -12px;
-        }
-        
-        .adcard {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    position: relative; /* Adicionado para permitir o posicionamento absoluto do ícone */
-}
-
-.adcard img {
-    width: 50px;
-    height: 50px;
-}
-
-.adcard-content {
-    width: 100%;
-}
-
-.adcard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.adcard-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333333;
-    margin-bottom: 5px;
-}
-
-.toggle-icon {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    color: #212121;
-    transition: transform 0.3s ease;
-    position: absolute;
-    top: 20px; /* Ajuste a posição do ícone */
-    right: 20px; /* Posiciona no canto superior direito */
-}
-
-.adcard.expanded .toggle-icon {
-    transform: rotate(180deg); /* Rotaciona a seta quando expandido */
-}
-
-.adcard-text {
-    font-size: 14px;
-    color: #666666;
-    margin-bottom: 5px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    transition: all 0.3s ease;
-}
-
-.adcard.expanded .adcard-text {
-    white-space: normal;
-    text-overflow: unset;
-}
-
-.adcard-text strong {
-    color: #212121;
-}
-
-.adcard-text.green {
-    font-size: 16px;
-    color: green;
-}
-
-.adhighlight-card {
-    background-color: #f5f5f5;
-    border-left: 5px solid #FF6F58;
-}
-       
-       .highlightblackfriday {
-            background: linear-gradient(90deg, #4E75AF, #4E75AF);
-            color: #FFFFFF;
-            padding: 5px 10px;
-            border-radius: 20px;
-            margin-left: 3px;
-        }        
-        
-     .tooltip-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.toast-tooltip {
-  display: none;
-  position: absolute;
-  top: 28px; /* ajusta a posição abaixo do ícone */
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-size: 14px;
-  max-width: 240px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-}
-
-.toast-tooltip::after {
-  content: '';
-  position: absolute;
-  top: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 8px;
-  border-style: solid;
-  border-color: transparent transparent #333 transparent;
-}
-
-    </style>
-</head>
-<body>
-    <div class="toolbar">
-        <div class="header">
-            <div class="logo">
-                <img src="logo.png" alt="Logo" class="logo">
-                <div>
-                    <div class="title">Tinder</div>
-                    <div class="powered-by">Powered by Connect</div>
+</style>
+<!-- Header -->
+    <header class="header-gradient">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-logo">
+                    <img src="logo.png" alt="Logo" class="logo">
+                    <h1 class="header-title">Tinder Gold</h1>
                 </div>
             </div>
-            <div class="profile">
-                <img src="banner.png" alt="Profile Picture" />
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Plan Tab Content -->
+            <div class="tab-content active" id="plano-tab">
+                <h2 class="section-title">Planos disponíveis</h2>
+                <p class="section-subtitle">Escolha seu plano e aproveite todos os benefícios</p>
+                
+                <div id="plan-grid" class="plan-grid">
+                    <!-- Plans will be loaded dynamically from JSON -->
+                </div>
+
+            <!-- Benefits -->
+            <div class="benefits-section">
+                <h3 class="benefits-title">O que está incluído:</h3>
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <p class="benefit-text">Veja quem curtiu você</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <p class="benefit-text">Super Likes toda semana</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <p class="benefit-text">1 Boost gratuito por mês</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <p class="benefit-text">E tudo que você adora no Tinder Plus®</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="toolbar-options">
-            <div class="option active">Gold</div>
-            <div class="option inactive"></div>
+
+        <!-- FAQ Tab Content -->
+        <div class="tab-content" id="faq-tab">
+            <div class="faq-container">
+                <h2 class="faq-title">Perguntas Frequentes</h2>
+                
+                <!-- FAQ items will be dynamically inserted here -->
+                <div id="faq-container" class="faq-list">
+                    <!-- FAQ items will be loaded from JavaScript -->
+                </div>
+                
+                <!-- Contact Support -->
+                <div class="support-section">
+                    <p class="support-text">Não encontrou o que procurava?</p>
+                    <button class="support-button" onclick="window.location.href='https://wa.me/+5533999449469';">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                        </svg>
+                        Fale com o Suporte
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Connect - Celulares e Informatica Ltda<p>
+           <p>CNPJ 43.701.700/0001-16</p>
         </div>
     </div>
-   
-    <div class="container">
-    
-    <div class="adcard adhighlight-card">
-    <div class="adcard-content">
-     <div class="adcard-title">
-     Desbloqueie o melhor do Tinder
 </div>
-<!-- Ícone de seta para expandir/contrair, posicionado no canto superior direito -->
-    <button class="toggle-icon" onclick="toggleCard(this)">
-      <i class="fas fa-chevron-down"></i> <!-- Ícone de seta para baixo -->
-    </button>
-<div class="adcard-text">
-Curtidas e voltas ilimitadas, conexões globais, destaque diário, privacidade total, sem anúncios, Super Likes semanais, Boost mensal e veja quem curtiu você.
-</div>
-<!--
-<div id="adAction" class="adcard-text green">
-     RECARREGAR AGORA
-</div>-->
-    </div>
-   </div>
-   
-   
-    <div class="subtitle">Selecione a melhor assinatura para você</div>
-    <div class="card" onclick="selectCard('value34')">
-            <input type="radio" name="value" id="value34" value="34">
-            <label for="value34" class="value">1 mês</label>
-            <span class="highlight">Mais escolhido!</span>
-        </div>
-        <div class="card" onclick="selectCard('value129')">
-            <input type="radio" name="value" id="value129" value="129">
-            <label for="value129" class="value">6 meses</label>
-        </div>
-        <div class="card" onclick="selectCard('value190')">
-            <input type="radio" name="value" id="value190" value="190">
-            <label for="value190" class="value">12 meses</label>
-            <span class="highlightsave">Economize 50%</span>
+
+<!-- Combined Bottom Container (Payment + Navigation) -->
+<div id="bottom-container" class="bottom-container">
+    <!-- Payment Bar -->
+    <div id="payment-bar" class="payment-bar">
+        <div class="payment-content">
+            <div class="selected-plan">
+                <span id="selected-plan-name" class="selected-plan-name">1 mês</span>
+                <span class="plan-separator">•</span>
+                <span id="selected-plan-price" class="selected-plan-price">R$ 39</span>
+            </div>
+            <button id="buy-button" class="cta-button">
+                <span>Comprar</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
         </div>
     </div>
-
-<div class="popup" id="paymentPopup">
-    <div class="summary">
-  Valor final do pedido 
-  <span class="tooltip-wrapper">
-    <i class="fas fa-question-circle info-icon" onclick="showFeeToast()"></i>
-    <div class="toast-tooltip" id="toastTooltip">
-      Para processamento e emissão do código do cartão pré-pago, incluímos uma taxa de serviço de R$ 5.
+    
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="tab-button active" onclick="switchTab('plano')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+            </svg>
+            <span>Planos</span>
+        </div>
+        <div class="tab-button" onclick="switchTab('faq')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Ajuda</span>
+        </div>
     </div>
-  </span>
 </div>
 
-    <div class="total" id="orderTotal">R$ 20</div>      
-    
-    <div class="fee">Ao continuar, você aceita os <a class="feeclick" href="https://connectstore.github.io/terms">Termos e Condições</a> do produto. Após concluir a compra, o Gift Card não poderá ser cancelado ou reembolsado.</div>
-
-    <button href="#" class="button pay-button" id="payButton">REALIZAR PAGAMENTO</button>
-    <button class="toggle-icon" id="cancelButton">
-     <i class="fas fa-chevron-down"></i>
-     </button>
+<!-- Bottom Sheet for Terms -->
+<div id="backdrop" class="backdrop"></div>
+<div id="terms-sheet" class="bottom-sheet">
+    <div class="sheet-content">
+        <div class="sheet-header">
+            <h3 class="sheet-title">Termos e Condições</h3>
+            <button id="close-sheet" class="close-button">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <p class="sheet-text">
+            Ao continuar, você aceita os <a class="termsclick" href="https://connectstore.github.io/terms">Termos e Condições</a> do produto. Após concluir a compra, o Gift Card não poderá ser cancelado ou reembolsado.
+        </p>
+        <button id="confirm-button" class="confirm-button">
+            Concordar e Continuar
+        </button>
+    </div>
 </div>
 
-<button class="button bottom-buttonfix" id="continueButton">CONTINUAR</button>
+<script>
+    // Plans data stored as JSON
+    const plansData = [
+        {
+            id: 1,
+            months: 1,
+            basePrice: 34,
+            fee: 5,
+            totalPrice: 39,
+            monthlyPrice: 39,
+            tag: {
+                text: "Mais escolhido",
+                color: "default" // default is red
+            }
+        },
+        {
+            id: 2,
+            months: 3,
+            basePrice: 100,
+            fee: 5,
+            totalPrice: 105,
+            monthlyPrice: 35,
+            tag: null
+        },
+        {
+            id: 3,
+            months: 6,
+            basePrice: 129,
+            fee: 5,
+            totalPrice: 134,
+            monthlyPrice: 22.33,
+            tag: null
+        },
+        {
+            id: 4,
+            months: 12,
+            basePrice: 190,
+            fee: 5,
+            totalPrice: 195,
+            monthlyPrice: 16.25,
+            tag: {
+                text: "Melhor valor",
+                color: "green"
+            }
+        }
+    ];
 
- <script>
- 	// Codigo mostrar taxa
-        function showFeeToast() {
-  const tooltip = document.getElementById("toastTooltip");
-  tooltip.style.display = "block";
+    // FAQ data stored as JSON
+    const faqData = [
+        {
+            question: "O que é o Tinder Gold?",
+            answer: "O Tinder Gold é uma assinatura premium que oferece recursos exclusivos como ver quem curtiu seu perfil antes de dar match, Super Likes toda semana, 1 Boost gratuito por mês, e controle sobre quem vê seu perfil, entre outros benefícios."
+        },
+        {
+            question: "Como funciona o pagamento?",
+            answer: "Após selecionar seu plano, você será direcionado para nossa página de pagamento. O valor será cobrado integralmente via PIX no momento da compra."
+        },
+        {
+            question: "Posso cancelar minha assinatura?",
+            answer: "Após a compra, o Gift Card não poderá ser cancelado ou reembolsado. No entanto, você pode optar por não renovar sua assinatura ao final do período contratado através das configurações da sua conta no aplicativo Tinder."
+        },
+        {
+            question: "Como ativo minha assinatura?",
+            answer: "Após a confirmação do pagamento, você receberá um código por WhatsApp. Basta acessar o site do Tinder e inserir o código recebido. Os benefícios serão ativados imediatamente."
+        },
+        {
+            question: "Qual a diferença entre Tinder Plus e Gold?",
+            answer: "O Tinder Gold inclui todos os benefícios do Tinder Plus (likes ilimitados, voltar atrás em swipes, sem anúncios) e adiciona recursos exclusivos como ver quem curtiu seu perfil antes de dar match e acesso a seleções diárias de perfis compatíveis."
+        },
+        {
+            question: "Posso usar em qualquer dispositivo?",
+            answer: "Sim, sua assinatura Tinder Gold está vinculada à sua conta e não ao dispositivo. Você pode acessar todos os benefícios em qualquer dispositivo onde fizer login com sua conta Tinder."
+        }
+    ];
 
-  setTimeout(() => {
-    tooltip.style.display = "none";
-  }, 4000); // Exibe por 4 segundos
-}
-
-function toggleCard(button) {
-  const card = button.closest('.adcard');
-  card.classList.toggle('expanded');
-}
-    // Oculta o botão "Continuar" ao abrir a página.
-    document.getElementById('continueButton').classList.add('hidden');
-    
-    document.addEventListener("DOMContentLoaded", function() {
-        // Seleciona automaticamente o cartão ao carregar a página
-        selectCard('value34'); 
-    });
-    
-    function selectCard(cardId) {
-        document.getElementById('paymentPopup').classList.remove('active');
-        // Mostra o botão "Continuar" ao selecionar a opção
-        document.getElementById('continueButton').classList.remove('hidden'); 
-        // Remove a classe 'selected' de todos os cards
-        var cards = document.querySelectorAll('.card');
-        cards.forEach(function(card) {
-            card.classList.remove('selected');
+    // Function to load plans from JSON data
+    function loadPlans() {
+        const planGrid = document.getElementById('plan-grid');
+        planGrid.innerHTML = ''; // Clear existing content
+        
+        plansData.forEach((plan, index) => {
+            const planCard = document.createElement('div');
+            planCard.className = 'plan-card' + (index === 0 ? ' selected' : '');
+            planCard.setAttribute('data-id', plan.id);
+            planCard.setAttribute('data-months', plan.months);
+            planCard.setAttribute('data-price', plan.totalPrice);
+            planCard.setAttribute('data-monthly', plan.monthlyPrice);
+            planCard.setAttribute('data-base-price', plan.basePrice);
+            planCard.setAttribute('data-fee', plan.fee);
+            planCard.onclick = function() { selectPlan(this, plan.id); };
+            
+            // Create badge if tag exists
+            let badgeHTML = '';
+            if (plan.tag) {
+                const colorClass = plan.tag.color !== 'default' ? ` ${plan.tag.color}` : '';
+                badgeHTML = `<div class="badge${colorClass}">${plan.tag.text}</div>`;
+            }
+            
+            // Format monthly price to show with comma as decimal separator
+            const formattedMonthlyPrice = plan.monthlyPrice.toFixed(2).replace('.', ',');
+            
+            planCard.innerHTML = `
+                ${badgeHTML}
+                <div class="plan-card-content">
+                    <h3 class="plan-title">${plan.months} ${plan.months === 1 ? 'mês' : 'meses'}</h3>
+                    <p class="plan-price">R$ ${plan.totalPrice}</p>
+                    <p class="plan-monthly">R$ ${formattedMonthlyPrice}/mês</p>
+                </div>
+            `;
+            
+            planGrid.appendChild(planCard);
         });
-
-        // Adiciona a classe 'selected' ao card clicado
-        var selectedCard = document.querySelector('input#' + cardId);
-        selectedCard.parentElement.classList.add('selected');
-        selectedCard.checked = true;
     }
 
-    document.getElementById('continueButton').addEventListener('click', function() {
-        var selectedValue = document.querySelector('input[name="value"]:checked');
-        if (selectedValue) {
-            var value = selectedValue.value;
-            var total = parseInt(value) + 5;
-            document.getElementById('orderTotal').textContent = 'R$ ' + total;
-            document.getElementById('paymentPopup').classList.add('active');
-            document.getElementById('continueButton').classList.add('hidden'); // Oculta o botão "Continuar"
-        } else {
-            alert('Por favor, selecione um valor.');
+    // Function to load FAQ items from JSON data
+    function loadFaqItems() {
+        const faqContainer = document.getElementById('faq-container');
+        faqContainer.innerHTML = ''; // Clear existing content
+        
+        faqData.forEach((item, index) => {
+            const faqItem = document.createElement('div');
+            faqItem.className = 'faq-item';
+            faqItem.onclick = function() { toggleFaq(this); };
+            
+            faqItem.innerHTML = `
+                <div class="faq-question">
+                    <h3>${item.question}</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+                <div class="faq-answer">
+                    <p>${item.answer}</p>
+                </div>
+            `;
+            
+            faqContainer.appendChild(faqItem);
+        });
+    }
+
+    // Load plans and FAQ items when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPlans();
+        loadFaqItems();
+        updateSelectedPlanDisplay();
+        
+        // Bottom sheet functionality
+        const buyButton = document.getElementById('buy-button');
+        const termsSheet = document.getElementById('terms-sheet');
+        const backdrop = document.getElementById('backdrop');
+        const closeSheet = document.getElementById('close-sheet');
+        const confirmButton = document.getElementById('confirm-button');
+        
+        buyButton.addEventListener('click', function() {
+            termsSheet.classList.add('active');
+            backdrop.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+        
+        function closeBottomSheet() {
+            termsSheet.classList.remove('active');
+            backdrop.classList.remove('active');
+            document.body.style.overflow = ''; // Re-enable scrolling
         }
+        
+        closeSheet.addEventListener('click', closeBottomSheet);
+        backdrop.addEventListener('click', closeBottomSheet);
+        
+        confirmButton.addEventListener('click', function() {
+            closeBottomSheet();
+            
+            // Get selected plan data
+            const selectedPlan = document.querySelector('.plan-card.selected');
+            if (!selectedPlan) return;
+            
+            const totalPrice = selectedPlan.getAttribute('data-price');
+            const basePrice = selectedPlan.getAttribute('data-base-price');
+            
+            // Create checkout URL with parameters
+            const checkoutUrl = `https://connectstore.github.io/checkout?payment=${totalPrice}&product=Tinder&price=${basePrice}`;
+            
+            // Redirect to checkout page
+            window.location.href = checkoutUrl;
+        });
     });
 
-    document.getElementById('cancelButton').addEventListener('click', function() {
-        document.getElementById('paymentPopup').classList.remove('active');
-        document.getElementById('continueButton').classList.remove('hidden'); // Mostra o botão "Continuar"
-    });
-
-     // Forma antiga de pagar
-    /*document.getElementById('payButton').addEventListener('click', function() {
-        var selectedValue = document.querySelector('input[name="value"]:checked').value;
-        var total = parseInt(selectedValue) + 5;
-        var message = "Quero concluir o meu pedido #TINDER" + selectedValue + "\n\nDetalhes do pedido\n1x R$ " + selectedValue + " (Tinder)\n1x R$ 5 (Taxa de processamento)";
-        var whatsappUrl = "https://api.whatsapp.com/send?phone=553398801838&text=" + encodeURIComponent(message);
-        window.location.href = whatsappUrl;
-    });*/
-   
-    // Nova forma de pagar
-    document.getElementById('payButton').addEventListener('click', function() {
-    var selectedValue = document.querySelector('input[name="value"]:checked').value;
-    var total = parseInt(selectedValue) + 5;
+    function selectPlan(element, planId) {
+        // Remove selected class from all plans
+        document.querySelectorAll('.plan-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        
+        // Add selected class to clicked plan
+        element.classList.add('selected');
+        
+        // Update the fixed payment bar
+        updateSelectedPlanDisplay();
+    }
     
-    // Constrói a URL de checkout corretamente
-    var checkoutUrl = "https://connectstore.github.io/checkout?payment=" + total + "&product=Tinder" + "&price=" + selectedValue;
-    window.location.href = checkoutUrl;
-});
-    </script>
+    function updateSelectedPlanDisplay() {
+        const selectedPlan = document.querySelector('.plan-card.selected');
+        if (!selectedPlan) return;
+        
+        const months = selectedPlan.getAttribute('data-months');
+        const price = selectedPlan.getAttribute('data-price');
+        
+        document.getElementById('selected-plan-name').textContent = `${months} ${months == 1 ? 'mês' : 'meses'}`;
+        document.getElementById('selected-plan-price').textContent = `R$ ${price}`;
+    }
+    
+    function toggleFaq(element) {
+        element.classList.toggle('active');
+    }
+    
+    function switchTab(tabName) {
+        // Hide all tab contents
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // Show selected tab content
+        document.getElementById(tabName + '-tab').classList.add('active');
+        
+        // Update tab button styles
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.classList.remove('active');
+        });
+        
+        // Highlight active tab button
+        const activeButton = document.querySelector(`.tab-button[onclick="switchTab('${tabName}')"]`);
+        activeButton.classList.add('active');
+        
+        // Show/hide payment bar based on active tab
+        const paymentBar = document.getElementById('payment-bar');
+        if (tabName === 'plano') {
+            paymentBar.style.display = 'block';
+        } else {
+            paymentBar.style.display = 'none';
+        }
+    }
+</script>
 </body>
 </html>
