@@ -8,31 +8,52 @@
     <!-- Dentro do <head> -->
     <meta name="theme-color" content="#ff385c">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Reset and Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-        font-family: 'Poppins', sans-serif;
-        background-color: #ffffff;
-        min-height: 100vh;
-        padding-bottom: 140px; /* Space for combined bottom bar */
-        color: #333;
+   <style>
+    :root {
+        --color-primary: #ff385c;
+        --color-primary-light: #ff7676;
+        --color-primary-bg: rgba(255, 56, 92, 0.05);
+        --color-text: #333;
+        --color-subtext: #666;
+        --color-light: #777;
+        --color-border: #f3f4f6;
+        --color-bg: #ffffff;
+        --color-badge-green: #10b981;
+        --color-badge-blue: #3b82f6;
+        --color-badge-orange: #f59e0b;
+        --color-benefit-icon-bg: #fce7eb;
+        --color-support-btn-bg: #f3f4f6;
+        --color-support-btn-hover: #e5e7eb;
+        --color-separator: #ccc;
+        --color-footer: #777;
+        --color-backdrop: rgba(0, 0, 0, 0.5);
+        --color-sheet-shadow: rgba(0, 0, 0, 0.1);
+        --color-cta-shadow: rgba(255, 56, 92, 0.3);
+        --color-terms: #FD3078;
     }
-    
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: var(--color-bg);
+        min-height: 100vh;
+        padding-bottom: 140px;
+        color: var(--color-text);
+    }
+
     .container {
         max-width: 540px;
         margin: 0 auto;
         padding: 0 16px;
     }
-    
-    /* Header Styles */
+
     .header-gradient {
-        background: linear-gradient(180deg, #ff385c 0%, #ff7676 100%);
+        background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
         color: white;
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
@@ -41,55 +62,53 @@
         top: 0;
         z-index: 10;
     }
-    
+
     .header-content {
         display: flex;
         align-items: center;
         padding: 16px;
     }
-    
+
     .header-logo {
         display: flex;
         align-items: center;
     }
-    
+
     .header-logo svg {
         width: 32px;
         height: 32px;
         margin-right: 8px;
     }
-    
+
     .header-title {
         font-size: 20px;
         font-weight: 700;
     }
-    
-    /* Main Content Styles */
+
     .main-content {
         padding: 24px 0;
     }
-    
+
     .section-title {
         font-size: 20px;
         font-weight: 600;
-        color: #333;
+        color: var(--color-text);
         margin-bottom: 5px;
     }
-    
+
     .section-subtitle {
         font-size: 14px;
-        color: #666;
+        color: var(--color-subtext);
         margin-bottom: 30px;
     }
-    
-    /* Plan Cards */
+
     .plan-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 16px;
         margin-bottom: 24px;
     }
-    
+
     .plan-card {
         background-color: white;
         border-radius: 12px;
@@ -100,121 +119,118 @@
         border: 2px solid transparent;
         position: relative;
     }
-    
+
     .plan-card:hover {
         transform: translateY(-2px);
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
-    
+
     .plan-card.selected {
-        border-color: #ff385c;
-        background-color: rgba(255, 56, 92, 0.05);
+        border-color: var(--color-primary);
+        background-color: var(--color-primary-bg);
     }
-    
+
     .plan-card-content {
         text-align: center;
     }
-    
+
     .plan-title {
         font-weight: 600;
         color: #444;
         margin-bottom: 4px;
     }
-    
+
     .plan-price {
         font-size: 20px;
         font-weight: 700;
-        color: #ff385c;
+        color: var(--color-primary);
     }
-    
+
     .plan-monthly {
         font-size: 12px;
-        color: #777;
+        color: var(--color-light);
         margin-top: 4px;
     }
-    
+
     .badge {
         position: absolute;
         top: -10px;
         right: -10px;
-        background-color: #ff385c;
+        background-color: var(--color-primary);
         color: white;
         font-size: 12px;
         padding: 2px 8px;
         border-radius: 999px;
         transform: rotate(15deg);
     }
-    
+
     .badge.green {
-        background-color: #10b981;
+        background-color: var(--color-badge-green);
     }
-    
+
     .badge.blue {
-        background-color: #3b82f6;
+        background-color: var(--color-badge-blue);
     }
-    
+
     .badge.orange {
-        background-color: #f59e0b;
+        background-color: var(--color-badge-orange);
     }
-    
-    /* Benefits Section */
+
     .benefits-section {
-        border: 1px solid #f3f4f6;
+        border: 1px solid var(--color-border);
         background-color: #fafafa;
         border-radius: 12px;
         padding: 16px;
         margin-bottom: 24px;
     }
-    
+
     .benefits-title {
         color: #444;
         font-weight: 500;
         margin-bottom: 12px;
         text-align: center;
     }
-    
+
     .benefit-item {
         display: flex;
         align-items: center;
         margin-bottom: 12px;
     }
-    
+
     .benefit-item:last-child {
         margin-bottom: 0;
     }
-    
+
     .benefit-icon {
         width: 24px;
         height: 24px;
-        background-color: #fce7eb;
+        background-color: var(--color-benefit-icon-bg);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         margin-right: 12px;
     }
-    
+
     .benefit-icon svg {
         width: 12px;
         height: 12px;
-        color: #ff385c;
+        color: var(--color-primary);
     }
-    
+
     .benefit-text {
         font-size: 14px;
-        color: #666;
+        color: var(--color-subtext);
     }
-    
-    /* Tab Content */
+
     .tab-content {
         display: none;
     }
-    
+
     .tab-content.active {
         display: block;
     }
-    
-    /* FAQ Styles */
+
     .faq-container {
         background-color: white;
         border-radius: 16px;
@@ -222,80 +238,79 @@
         padding: 24px;
         margin-bottom: 24px;
     }
-    
+
     .faq-title {
         font-size: 20px;
         font-weight: 600;
-        color: #333;
+        color: var(--color-text);
         margin-bottom: 24px;
     }
-    
+
     .faq-list {
         display: flex;
         flex-direction: column;
         gap: 16px;
     }
-    
+
     .faq-item {
         border-bottom: 1px solid #eee;
         padding-bottom: 8px;
         transition: all 0.3s ease;
     }
-    
+
     .faq-question {
         display: flex;
         justify-content: space-between;
         align-items: center;
         cursor: pointer;
     }
-    
+
     .faq-question h3 {
         font-weight: 500;
-        color: #333;
+        color: var(--color-text);
     }
-    
+
     .faq-question svg {
         width: 20px;
         height: 20px;
-        color: #777;
+        color: var(--color-light);
         transition: transform 0.3s ease;
     }
-    
+
     .faq-answer {
         max-height: 0;
         overflow: hidden;
         transition: max-height 0.3s ease;
     }
-    
+
     .faq-answer p {
         font-size: 14px;
-        color: #666;
+        color: var(--color-subtext);
         padding-top: 8px;
     }
-    
+
     .faq-item.active .faq-answer {
         max-height: 500px;
     }
-    
+
     .faq-item.active .faq-question svg {
         transform: rotate(180deg);
     }
-    
-    /* Support Section */
+
     .support-section {
         text-align: center;
         margin-top: 32px;
     }
-    
+
     .support-text {
         font-size: 14px;
-        color: #666;
+        color: var(--color-subtext);
         margin-bottom: 16px;
     }
-    
+
     .support-button {
-        background-color: #f3f4f6;
-        color: #333;
+        background-color: var(--color-support-btn-bg);
+        color: var(--color-text);
         font-weight: 500;
         padding: 8px 24px;
         border-radius: 8px;
@@ -306,26 +321,24 @@
         align-items: center;
         margin: 0 auto;
     }
-    
+
     .support-button:hover {
-        background-color: #e5e7eb;
+        background-color: var(--color-support-btn-hover);
     }
-    
+
     .support-button svg {
         width: 20px;
         height: 20px;
         margin-right: 8px;
     }
-    
-    /* Footer */
+
     .footer {
         text-align: center;
         font-size: 12px;
-        color: #777;
+        color: var(--color-footer);
         margin-bottom: 80px;
     }
-    
-    /* Bottom Container */
+
     .bottom-container {
         position: fixed;
         bottom: 0;
@@ -337,122 +350,116 @@
         border-top: 1px solid rgba(0, 0, 0, 0.05);
         z-index: 10;
     }
-    
-    /* Payment Bar */
+
     .payment-bar {
         padding: 16px;
-        border-bottom: 1px solid #f3f4f6;
+        border-bottom: 1px solid var(--color-border);
     }
-    
+
     .payment-content {
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
-    
+
     .selected-plan {
         display: flex;
         align-items: center;
     }
-    
+
     .selected-plan-name {
         font-size: 16px;
         font-weight: 700;
-        color: #333;
+        color: var(--color-text);
     }
-    
+
     .plan-separator {
         margin: 0 8px;
-        color: #ccc;
+        color: var(--color-separator);
     }
-    
+
     .selected-plan-price {
         font-size: 16px;
         font-weight: 700;
-        color: #ff385c;
+        color: var(--color-primary);
     }
-    
+
     .cta-button {
-        background: linear-gradient(90deg, #ff385c 0%, #ff7676 100%);
+        background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
         color: white;
         font-weight: 700;
         font-size: 16px;
         padding: 12px 24px;
         border-radius: 12px;
         border: none;
-        box-shadow: 0 4px 6px rgba(255, 56, 92, 0.3);
+        box-shadow: 0 4px 6px var(--color-cta-shadow);
         cursor: pointer;
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
     }
-    
+
     .cta-button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 15px -3px rgba(255, 56, 92, 0.3);
+        box-shadow: 0 10px 15px -3px var(--color-cta-shadow);
     }
-    
+
     .cta-button svg {
         width: 16px;
         height: 16px;
         margin-left: 8px;
     }
-    
-    /* Bottom Navigation */
+
     .bottom-nav {
         display: flex;
         justify-content: space-around;
         align-items: center;
         padding: 12px 16px;
     }
-    
+
     .tab-button {
         display: flex;
         flex-direction: column;
         align-items: center;
         cursor: pointer;
     }
-    
+
     .tab-button svg {
         width: 24px;
         height: 24px;
-        color: #777;
+        color: var(--color-light);
     }
-    
+
     .tab-button span {
         font-size: 12px;
         font-weight: 500;
-        color: #777;
+        color: var(--color-light);
         margin-top: 4px;
     }
-    
-    .tab-button.active svg {
-        color: #ff385c;
-    }
-    
+
+    .tab-button.active svg,
     .tab-button.active span {
-        color: #ff385c;
+        color: var(--color-primary);
     }
-    
-    /* Bottom Sheet */
+
     .backdrop {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: var(--color-backdrop);
         z-index: 40;
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.3s ease;
     }
-    
+
     .backdrop.active {
         opacity: 1;
         pointer-events: auto;
     }
-    
+
     .bottom-sheet {
         position: fixed;
         bottom: 0;
@@ -461,33 +468,33 @@
         background-color: white;
         border-top-left-radius: 16px;
         border-top-right-radius: 16px;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 -4px 20px var(--color-sheet-shadow);
         z-index: 50;
         transform: translateY(100%);
         transition: transform 0.3s ease;
     }
-    
+
     .bottom-sheet.active {
         transform: translateY(0);
     }
-    
+
     .sheet-content {
         padding: 24px;
     }
-    
+
     .sheet-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 16px;
     }
-    
+
     .sheet-title {
         font-size: 18px;
         font-weight: 600;
-        color: #333;
+        color: var(--color-text);
     }
-    
+
     .close-button {
         padding: 4px;
         border-radius: 50%;
@@ -495,50 +502,51 @@
         background: transparent;
         cursor: pointer;
     }
-    
+
     .close-button:hover {
-        background-color: #f3f4f6;
+        background-color: var(--color-border);
     }
-    
+
     .close-button svg {
         width: 24px;
         height: 24px;
-        color: #777;
+        color: var(--color-light);
     }
-    
+
     .sheet-text {
-        color: #666;
+        color: var(--color-subtext);
         margin-bottom: 24px;
     }
-    
+
     .confirm-button {
         width: 100%;
-        background: linear-gradient(90deg, #ff385c 0%, #ff7676 100%);
+        background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
         color: white;
         font-weight: 700;
         font-size: 16px;
         padding: 12px;
         border-radius: 12px;
         border: none;
-        box-shadow: 0 4px 6px rgba(255, 56, 92, 0.3);
+        box-shadow: 0 4px 6px var(--color-cta-shadow);
         cursor: pointer;
     }
+
     .termsclick {
         font-size: 15px;
-        color: #FD3078;
+        color: var(--color-terms);
         border-radius: 4px;
         text-align: center;
         margin-bottom: 8px;
-        }
+    }
+
     .logo {
         width: 40px;
         height: auto;
         display: block;
         margin-left: auto;
         margin-right: auto;
-       margin-top: 0px;
-        }
-        
+        margin-top: 0px;
+    }
 </style>
 <!-- Header -->
     <header class="header-gradient">
@@ -683,7 +691,7 @@
             </button>
         </div>
         <p class="sheet-text">
-            Ao continuar, você aceita os <a class="termsclick" href="https://connectstore.github.io/terms">Termos e Condições</a> do produto. Após concluir a compra, o Gift Card não poderá ser cancelado ou reembolsado.
+            Ao continuar, você aceita os <a class="termsclick" href="https://connectstore.github.io/terms">Termos e Condições</a> do produto e autoriza o envio de comunicações promocionais e informativas.
         </p>
         <button id="confirm-button" class="confirm-button">
             Concordar e Continuar
