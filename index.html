@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tinder Gold</title>
+    <title>Tinder</title>
     <meta name="description" content="Assine o Tinder Gold e desbloqueie recursos exclusivos: veja quem curtiu, Super Likes semanais, Boost mensal e muito mais.">
     <!-- Dentro do <head> -->
     <meta name="theme-color" content="#ff385c">
@@ -21,6 +21,7 @@
         --color-badge-green: #10b981;
         --color-badge-blue: #3b82f6;
         --color-badge-orange: #f59e0b;
+        --color-badge-black: #000000;
         --color-benefit-icon-bg: #fce7eb;
         --color-support-btn-bg: #f3f4f6;
         --color-support-btn-hover: #e5e7eb;
@@ -174,6 +175,10 @@
 
     .badge.orange {
         background-color: var(--color-badge-orange);
+    }
+    
+    .badge.black {
+        background-color: var(--color-badge-black);
     }
 
     .benefits-section {
@@ -554,7 +559,7 @@
             <div class="header-content">
                 <div class="header-logo">
                     <img src="logo.png" alt="Logo" class="logo">
-                    <h1 class="header-title">Tinder Gold</h1>
+                    <h1 class="header-title">Tinder</h1>
                 </div>
             </div>
         </div>
@@ -722,7 +727,7 @@
             totalPrice: 100,
             monthlyPrice: 33,
             tag: {
-                text: "Taxa ZERO!",
+                text: "Tinder Gold",
                 color: "default" // default is red
             }
         },
@@ -733,7 +738,10 @@
             fee: 5,
             totalPrice: 134,
             monthlyPrice: 22.33,
-            tag: null
+            tag: {
+                text: "Tinder Gold",
+                color: "default" // default is red
+            }
         },
         {
             id: 4,
@@ -743,8 +751,20 @@
             totalPrice: 195,
             monthlyPrice: 16.25,
             tag: {
-                text: "Melhor valor",
-                color: "green"
+                text: "Tinder Gold",
+                color: "default" // default is red
+            }
+        },
+        {
+            id: 5,
+            months: 1,
+            basePrice: 154,
+            fee: 5,
+            totalPrice: 154,
+            monthlyPrice: 154,
+            tag: {
+                text: "Tinder Platinum",
+                color: "black" // default is red
             }
         }
     ];
