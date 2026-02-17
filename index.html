@@ -1,1304 +1,400 @@
-<!doctype html>
-<html lang="pt-BR">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vendas</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-  <style>
-        /* Color Palette Variables */
-        :root {
-    /* Primary Colors (Tinder Theme) */
-    --color-primary: #fd5068;        /* Tinder Pink */
-    --color-primary-dark: #e6455c;
-    --color-primary-darker: #cc3d52;
-    --color-primary-darkest: #b23347;
-    --color-primary-light: #fff1f3;
-
-    /* Secondary Colors */
-    --color-secondary: #ff7854;      /* Tinder Orange */
-    --color-accent-green: #21d07a;   /* Like (green heart) */
-    --color-accent-orange: #ff9f45;
-
-    /* Neutral Colors */
-    --color-background: #ffffff;
-    --color-surface: #f7f7f7;
-    --color-surface-light: #fafafa;
-    --color-border: #e6e6e6;
-    --color-border-light: #f0f0f0;
-
-    /* Text Colors */
-    --color-text-primary: #1f1f1f;
-    --color-text-secondary: #3a3a3a;
-    --color-text-muted: #6b6b6b;
-    --color-text-light: #8a8a8a;
-    --color-text-lighter: #a0a0a0;
-    --color-text-lightest: #b5b5b5;
-
-    /* Interactive Colors */
-    --color-radio-border: #c4c4c4;
-    --color-hover-bg: #f2f2f2;
-    --color-hover-bg-light: #f9f9f9;
-
-    /* Shadow Colors */
-    --shadow-sm: rgba(0, 0, 0, 0.05);
-    --shadow-md: rgba(0, 0, 0, 0.08);
-    --shadow-lg: rgba(0, 0, 0, 0.12);
-    --shadow-primary: rgba(253, 80, 104, 0.15);
-    --shadow-primary-md: rgba(253, 80, 104, 0.25);
-    --shadow-primary-lg: rgba(253, 80, 104, 0.35);
-    --shadow-primary-xl: rgba(253, 80, 104, 0.45);
-
-    /* Backdrop */
-    --color-backdrop: rgba(0, 0, 0, 0.55);
-}
-        
-        /* Reset and Base Styles */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento com PIX</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
-        
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--color-background);
-            min-height: 100%;
-            padding-bottom: 140px;
-            color: var(--color-text-secondary);
-            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #F0F1F5;
         }
-        
-        html {
-            height: 100%;
-        }
-        
         .container {
-            max-width: 540px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
-        
-        /* Header Styles */
-        .header-gradient {
-            background: var(--color-surface);
-            color: var(--color-text-primary);
-            border-bottom: 1px solid var(--color-border);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        
-        .header-content {
-            padding: 16px 20px 0 20px;
-        }
-        
-        .header-top {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            position: relative;
-            margin-bottom: 16px;
-        }
-        
-        .header-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .header-logo svg {
-            width: 28px;
-            height: 28px;
-            color: var(--color-primary);
-            filter: drop-shadow(0 1px 2px var(--shadow-lg));
-        }
-        
-        .header-title {
-            font-size: 19px;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            color: var(--color-text-primary);
-        }
-        
-        /* Category Tabs in Header */
-        .header-category-tabs {
-            display: flex;
-            justify-content: flex-start;
-            gap: 8px;
-            padding-bottom: 12px;
-            overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        
-        .header-category-tabs::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .header-category-tab {
-            padding: 8px 18px;
-            border-radius: 20px;
-            background-color: var(--color-background);
-            color: var(--color-text-muted);
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1.5px solid var(--color-border);
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        
-        .header-category-tab:hover {
-            background-color: var(--color-surface-light);
-            border-color: var(--color-primary);
-        }
-        
-        .header-category-tab.active {
-            padding: 8px 18px;
-            border-radius: 20px;
-            background-color: var(--color-primary);
-            color: white;
-            border: 1.5px solid var(--color-primary);
-            font-weight: 600;
-        }
-        
-        /* Trust Badges */
-        .trust-badges {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            font-size: 11px;
-            font-weight: 500;
-        }
-        
-        .trust-badge {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 4px 8px;
-            border-radius: 12px;
-        }
-        
-        .trust-badge svg {
-            width: 14px;
-            height: 14px;
-        }
-        
-        /* Category Section */
-        .categories-wrapper {
-            position: relative;
-        }
-        
-        .category-section {
-            display: none;
-        }
-        
-        .category-section.active {
-            display: block;
-        }
-        
-        .category-header {
-            margin-bottom: 24px;
-            padding: 0 8px;
-        }
-        
-
-        
-        /* Main Content Styles */
-        .main-content {
-            padding: 24px 0;
-        }
-        
-        .section-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--color-text-primary);
-            margin-bottom: 8px;
-            text-align: center;
-            letter-spacing: -0.5px;
-        }
-        
-        .section-subtitle {
-            font-size: 14px;
-            color: var(--color-text-muted);
-            margin-bottom: 0;
-            text-align: center;
-            line-height: 1.5;
-        }
-        
-        /* Plan Cards */
-        .plan-grid {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 28px;
-            padding: 0 8px;
-        }
-        
-        .plan-card {
-            background-color: white;
-            border-radius: 12px;
-            padding: 18px 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid var(--color-border);
-            position: relative;
-            overflow: visible;
-            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            background-color: #F0F1F5;
             align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 1px 3px var(--shadow-sm);
+            justify-content: center;
         }
-        
-        .plan-card:hover {
-            border-color: var(--color-primary);
-            box-shadow: 0 4px 12px var(--shadow-primary);
-            transform: translateY(-2px);
-        }
-        
-        .plan-card.selected {
-            border-color: var(--color-primary);
-            background-color: var(--color-primary-light);
-            box-shadow: 0 4px 16px var(--shadow-primary-md);
-        }
-        
-        .plan-card.popular {
-            border-color: var(--color-primary);
-        }
-        
-        .plan-card-content {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            flex: 1;
-        }
-        
-        .plan-radio {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--color-radio-border);
-            border-radius: 50%;
+        .header {
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.2s ease;
-        }
-        
-        .plan-card.selected .plan-radio {
-            border-color: var(--color-primary);
-            border-width: 6px;
-        }
-        
-        .plan-info {
-            flex: 1;
-        }
-        
-        .plan-title {
-            font-weight: 600;
-            font-size: 15px;
-            color: var(--color-text-primary);
-            margin-bottom: 2px;
-        }
-        
-        .plan-monthly {
-            font-size: 13px;
-            color: #616161;
-        }
-        
-        .plan-price-section {
-            text-align: right;
-        }
-        
-        .plan-price {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--color-text-primary);
-            margin-bottom: 0;
-        }
-        
-        .badge {
-            position: absolute;
-            top: -10px;
-            right: 16px;
-            background-color: var(--color-primary);
-            color: white;
-            font-size: 10px;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .badge.green {
-            background-color: var(--color-accent-green);
-        }
-        
-        .badge.blue {
-            background-color: var(--color-secondary);
-        }
-        
-        .badge.orange {
-            background-color: var(--color-accent-orange);
-        }
-        
-        /* Benefits Section */
-        .benefits-section {
-            border: 2px solid var(--color-border-light);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 0 8px 24px 8px;
-            background: linear-gradient(135deg, var(--color-surface-light) 0%, var(--color-background) 100%);
-        }
-        
-        .benefits-title {
-            color: var(--color-text-secondary);
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 16px;
-        }
-        
-        .benefit-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        
-        .benefit-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .benefit-icon {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            flex-shrink: 0;
-        }
-        
-        .benefit-icon svg {
-            width: 14px;
-            height: 14px;
-            color: white;
-            stroke-width: 3;
-        }
-        
-        .benefit-text {
-            font-size: 14px;
-            color: var(--color-text-muted);
-        }
-        
-        /* Tab Content */
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        /* FAQ Styles */
-        .faq-container {
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0 2px 8px var(--shadow-md);
-            padding: 28px 24px;
-            margin-bottom: 24px;
-        }
-        
-        .faq-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--color-text-primary);
-            margin-bottom: 24px;
-            letter-spacing: -0.5px;
-        }
-        
-        .faq-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        
-        .faq-item {
-            border-bottom: 1px solid var(--color-border-light);
-            padding-bottom: 16px;
-            transition: all 0.3s ease;
-        }
-        
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-        
-        .faq-question {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            padding: 4px 0;
-        }
-        
-        .faq-question h3 {
-            font-weight: 600;
-            color: var(--color-text-primary);
-            font-size: 15px;
-            line-height: 1.5;
-        }
-        
-        .faq-question svg {
-            width: 20px;
-            height: 20px;
-            color: var(--color-text-light);
-            transition: transform 0.3s ease;
-        }
-        
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        
-        .faq-answer p {
-            font-size: 14px;
-            color: var(--color-text-muted);
-            padding-top: 12px;
-            line-height: 1.6;
-        }
-        
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-        }
-        
-        .faq-item.active .faq-question svg {
-            transform: rotate(180deg);
-            color: var(--color-primary);
-        }
-        
-        /* Support Section */
-        .support-section {
-            text-align: center;
-            margin-top: 32px;
-        }
-        
-        .support-text {
-            font-size: 14px;
-            color: var(--color-text-muted);
-            margin-bottom: 16px;
-        }
-        
-        .support-button {
-            background-color: var(--color-border-light);
-            color: var(--color-text-secondary);
-            font-weight: 500;
-            padding: 8px 24px;
+            padding: 15px;
             border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            margin: 0 auto;
+            margin-bottom: 10px;
+            margin-top: 10px;
         }
-        
-        .support-button:hover {
-            background-color: var(--color-border);
-        }
-        
-        .support-button svg {
-            width: 20px;
-            height: 20px;
+        .header i {
+            font-size: 24px;
+            color: #424242;
             margin-right: 8px;
         }
-        
-        /* Footer */
-        .footer {
-            text-align: center;
-            font-size: 12px;
-            color: var(--color-text-lightest);
-            margin: 40px 0 80px 0;
-            padding: 0 16px;
+        .header span {
+            font-size: 18px;
+            color: #424242;
         }
-        
-        .category-footer {
-            text-align: center;
-            font-size: 12px;
-            color: var(--color-text-lightest);
-            margin: 24px 8px 0 8px;
-            padding: 16px 0;
-            border-top: 1px solid var(--color-border-light);
-            line-height: 1.6;
+        .content {
+            background-color: #FFFFFF;
+            width: 100%;
+            max-width: 600px;
+            padding-bottom: 10px;
+            border-radius: 20px;
         }
-        
-        .category-footer a {
-            color: var(--color-primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .category-footer a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Bottom Container */
-        .bottom-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.98);
-            border-top: 1px solid var(--color-border);
-            z-index: 10;
-            box-shadow: 0 -2px 20px var(--shadow-md);
-        }
-        
-        /* Payment Bar */
-        .payment-bar {
-            padding: 12px 20px;
-            border-bottom: 1px solid var(--color-border-light);
-        }
-        
-        .payment-content {
-            max-width: 540px;
-            margin: 0 auto;
+        .product-info {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-        }
-        
-        .selected-plan-info {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .selected-plan-label {
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--color-text-lighter);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            padding: 15px;
+            margin-top: 8px;
             margin-bottom: 4px;
         }
-        
-        .selected-plan {
-            display: flex;
-            align-items: baseline;
-            gap: 6px;
+        .product-info i {
+            font-size: 24px;
+            color: #820AD2;
+            margin-right: 8px;
         }
-        
-        .selected-plan-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--color-text-primary);
-        }
-        
-        .plan-separator {
-            color: #d1d5db;
-            font-size: 14px;
-        }
-        
-        .selected-plan-price {
+        .product-info .product-name {
             font-size: 18px;
-            font-weight: 700;
-            color: var(--color-primary);
+            font-weight: bold;
+            color: #424242;
+            flex-grow: 1;
         }
-        
-        .cta-button {
-            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-darker) 100%);
-            color: white;
-            font-weight: 600;
-            font-size: 15px;
-            padding: 14px 28px;
-            border-radius: 10px;
-            border: none;
-            box-shadow: 0 2px 8px var(--shadow-primary-lg);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px var(--shadow-primary-xl);
-            background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-darkest) 100%);
-        }
-        
-        .cta-button:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 6px var(--shadow-primary-lg);
-        }
-        
-        .cta-button svg {
-            width: 18px;
-            height: 18px;
-            margin-left: 6px;
-        }
-        
-        /* Bottom Navigation */
-        .bottom-nav {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 12px 16px;
-        }
-        
-        .tab-button {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-        }
-        
-        .tab-button svg {
-            width: 24px;
-            height: 24px;
-            color: var(--color-text-light);
-        }
-        
-        .tab-button span {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--color-text-light);
-            margin-top: 4px;
-        }
-        
-        .tab-button.active svg {
-            color: var(--color-primary);
-        }
-        
-        .tab-button.active span {
-            color: var(--color-primary);
-        }
-        
-        /* Bottom Sheet */
-        .backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--color-backdrop);
-            z-index: 40;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        
-        .backdrop.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        .bottom-sheet {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: white;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-            box-shadow: 0 -4px 20px var(--shadow-lg);
-            z-index: 50;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .bottom-sheet.active {
-            transform: translateY(0);
-        }
-        
-        .sheet-content {
-            padding: 24px;
-        }
-        
-        .sheet-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        
-        .sheet-title {
+        .product-info .product-price {
             font-size: 18px;
-            font-weight: 600;
-            color: var(--color-text-secondary);
+            font-weight: bold;
+            color: #820CD0;
         }
-        
-        .close-button {
-            padding: 4px;
+        .divider {
+            height: 1px;
+            background-color: #F4F5F8;
+            margin: 8px 0;
+        }
+        .pay-title {
+            margin: 8px 8px 0 8px;
+            padding: 20px 0 5px 0;
+            font-size: 30px;
+            color: #212121;
+        }
+        .pay-instructions {
+            padding: 0 8px 20px 8px;
+            font-size: 20px;
+            color: #616161;
+        }
+        .qr-code {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            height: 250px;
+            position: relative;
+        }
+        .qr-code img {
+            width: 250px;
+            height: 250px;
+            margin: 0;
+            display: none;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(0, 0, 0, 0.1);
+            border-top: 5px solid #820AD2;
             border-radius: 50%;
+            animation: spin 1s linear infinite;
+            transition: opacity 0.5s ease;
+            position: absolute;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .copy-button, .validate-button {
+            display: block;
+            margin: 15px auto;
+            padding: 10px 16px;
+            font-size: 18px;
+            text-align: center;
             border: none;
-            background: transparent;
+            border-radius: 50px;
             cursor: pointer;
         }
-        
-        .close-button:hover {
-            background-color: var(--color-border-light);
+        .copy-button {
+            background: linear-gradient(90deg, #9200F4, #820AD2);
+            color: #FFFFFF;
+            display: none;
         }
-        
-        .close-button svg {
-            width: 24px;
-            height: 24px;
-            color: var(--color-text-light);
+        .copy-button:hover {
+            background-color: #6f08b1;
         }
-        
-        .sheet-text {
-            color: var(--color-text-muted);
-            margin-bottom: 24px;
+        .validate-button {
+            display: none;
+            background: linear-gradient(90deg, #4E75AF, #4CAF50);
+            color: #FFFFFF;
         }
-        
-        .confirm-button {
-            width: 100%;
-            background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-            color: white;
-            font-weight: 700;
+        .validate-button:hover {
+            background-color: #218838;
+        }
+        .instructions-title {
+            padding: 8px 26px;
+            font-size: 20px;
+            color: #424242;
+        }
+        .instructions-text {
+            padding: 4px 26px;
             font-size: 16px;
+            color: #757575;
+        }
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #820AD2;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
             padding: 12px;
-            border-radius: 12px;
-            border: none;
-            box-shadow: 0 4px 6px var(--shadow-primary-xl);
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: visibility 0s, opacity 0.5s ease-in-out;
+            opacity: 0;
+            z-index: 1000;
+        }
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .copy-code {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #FFFFFF;
+            border: 1px solid #212121;
+            color: #212121;
+            padding: 10px 20px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .copy-code i {
+            margin-right: 10px;
         }
     </style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
-  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
- </head>
- <body><!-- Header -->
-  <header class="header-gradient">
-   <div class="container">
-    <div class="header-content">
-     <div class="header-top">
-      <div class="header-logo">
-       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-       </svg>
-       <h1 class="header-title">Connect Store</h1>
-      </div>
-     </div><!-- Category tabs integrated in header -->
-     <div class="header-category-tabs" id="header-category-tabs"><!-- Tabs will be dynamically inserted -->
-     </div>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <i class="fas fa-lock"></i>
+            <span>Powered by Connect</span>
+        </div>
+        <div class="content">
+            
+        <div class="content"><br>
+       <div class="instructions-title">🚀 Novidade importante</div>
+      <div class="instructions-text">
+        Agora todas as compras em nosso site são processadas de forma <b>100% automática,</b> garantindo muito mais rapidez e praticidade para você.
+       <p>
+     ⏱️ Além disso, nosso atendimento está disponível <b>24 horas por dia, 7 dias por semana.</b>
+      <p>
+     Compre quando quiser, receba sem esperar e conte com a gente sempre que precisar! 💙
+<p>
+Atenciosamente,<br>
+Equipe Connect
+
+<p>
+	<div class="copy-code" id="shopee-btn" aria-label="Compre via Shopee">
+                <i class="fas fa-external-link-alt"></i> Entendi, continuar para o site
+        </div>
     </div>
-   </div>
-  </header>
-  <div class="container">
-   <div class="main-content"><!-- Plan Tab Content -->
-    <div class="tab-content active" id="plano-tab"><!-- Categories wrapper -->
-     <div class="categories-wrapper" id="categories-wrapper">
-      <div id="categories-container"><!-- Categories will be dynamically inserted -->
-      </div>
-     </div>
-    </div><!-- FAQ Tab Content -->
-    <div class="tab-content" id="faq-tab">
-     <div class="faq-container">
-      <h2 class="faq-title">Perguntas Frequentes</h2><!-- FAQ items will be dynamically inserted here -->
-      <div id="faq-container" class="faq-list"><!-- FAQ items will be loaded from JavaScript -->
-      </div><!-- Contact Support -->
-      <div class="support-section">
-       <p class="support-text">Não encontrou o que procurava?</p><button class="support-button" onclick="window.open('https://wa.me/+', '_blank', 'noopener,noreferrer')">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-        </svg> Fale com o Suporte </button>
-      </div>
-     </div>
-     <div class="category-footer">
-      <p>Connect – Celulares e Informática Ltda<br><a href="https://www.econodata.com.br/consulta-empresa/connect-celulares-e-informatica-ltda" target="_blank" rel="noopener noreferrer">CNPJ 43.701.700/0001-16</a></p>
-     </div>
+</div>
+   <p>
     </div>
-   </div>
-  </div><!-- Combined Bottom Container (Payment + Navigation) -->
-  <div id="bottom-container" class="bottom-container"><!-- Payment Bar -->
-   <div id="payment-bar" class="payment-bar">
-    <div class="payment-content">
-     <div class="selected-plan-info">
-      <div class="selected-plan-label">
-       Plano Selecionado
-      </div>
-      <div class="selected-plan"><span id="selected-plan-name" class="selected-plan-name">Um mês</span> <span class="plan-separator">•</span> <span id="selected-plan-price" class="selected-plan-price">R$ 39</span>
-      </div>
-     </div><button id="buy-button" class="cta-button"> <span>Comprar</span>
-      <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-      </svg></button>
-    </div>
-   </div><!-- Bottom Navigation -->
-   <div class="bottom-nav">
-    <div class="tab-button active" onclick="switchTab('plano')">
-     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-     </svg><span>Planos</span>
-    </div>
-    <div class="tab-button" onclick="switchTab('faq')">
-     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-     </svg><span>Ajuda</span>
-    </div>
-   </div>
-  </div><!-- Bottom Sheet for Terms -->
-  <div id="backdrop" class="backdrop"></div>
-  <div id="terms-sheet" class="bottom-sheet">
-   <div class="sheet-content">
-    <div class="sheet-header">
-     <h3 class="sheet-title">Termos e Condições</h3><button id="close-sheet" class="close-button">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg></button>
-    </div>
-    <p class="sheet-text">Ao continuar, você aceita os <a href="https://connectstore.github.io/terms" target="_blank" rel="noopener noreferrer" style="color: #107c10; font-weight: 600; text-decoration: underline;">Termos e Condições</a> do produto. Após concluir a compra, o Gift Card não poderá ser cancelado ou reembolsado.</p><button id="confirm-button" class="confirm-button"> Concordar e Continuar </button>
-   </div>
-  </div>
-  <script>
-        // Categories data
-        const categoriesData = [
-            { title: "Tinder Gold", category: "gold" },
-            { title: "Tinder Platinum", category: "platinum" },
-            { title: "Tinder Plus", category: "plus" }
-        ];
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Chave PIX copiada para a Área de transferência!</div>
 
-        // Plans data
-        const plansData = [
-            // Tinder Gold
-            {
-                id: 1,
-                title: "Um mês",
-                subtitle: "R$ 39,00/mês",
-                category: "gold",
-                basePrice: 34,
-                fee: 5,
-                totalPrice: 39,
-                tag: {
-                    text: "Mais escolhido",
-                    color: "default"
-                },
-                isPopular: true
-            },
-            {
-                id: 2,
-                title: "Três meses",
-                subtitle: "R$ 34,00/mês",
-                category: "gold",
-                basePrice: 102,
-                fee: 0,
-                totalPrice: 102,
-                tag: null,
-                isPopular: false
-            },
-            {
-                id: 3,
-                title: "Seis meses",
-                subtitle: "R$ 34,00/mês",
-                category: "gold",
-                basePrice: 143,
-                fee: 0,
-                totalPrice: 143,
-                tag: {
-                    text: "Economize R$ 61",
-                    color: "green"
-                },
-                isPopular: false
-            },
-            // Tinder Platinum 
-            {
-                id: 4,
-                title: "Um mês",
-                subtitle: "R$ 78/mês",
-                category: "platinum",
-                basePrice: 78,
-                fee: 0,
-                totalPrice: 78,
-                tag: {
-                    text: "Mais escolhido",
-                    color: "default"
-                },
-                isPopular: true
-            },
-            {
-                id: 5,
-                title: "Três meses",
-                subtitle: "R$ 78/mês",
-                category: "platinum",
-                basePrice: 234,
-                fee: 0,
-                totalPrice: 234,
-                tag: null,
-                isPopular: false
-            },
-            {
-                id: 6,
-                title: "Seis meses",
-                subtitle: "R$ 50/mês",
-                category: "platinum",
-                basePrice: 302,
-                fee: 0,
-                totalPrice: 302,
-                tag: {
-                    text: "Economize R$ 166",
-                    color: "green"
-                },
-                isPopular: false
-            },
-            // Tinder Plus 
-            {
-                id: 7,
-                title: "Um mês",
-                subtitle: "R$ 29/mês",
-                category: "plus",
-                basePrice: 29,
-                fee: 0,
-                totalPrice: 29,
-                tag: {
-                    text: "Mais escolhido",
-                    color: "default"
-                },
-                isPopular: true
-            },
-            {
-                id: 8,
-                title: "Três meses",
-                subtitle: "R$ 29/mês",
-                category: "plus",
-                basePrice: 87,
-                fee: 3,
-                totalPrice: 87,
-                tag: null,
-                isPopular: false
-            },
-            {
-                id: 9,
-                title: "Seis meses",
-                subtitle: "R$ 16,50/mês",
-                category: "plus",
-                basePrice: 99,
-                fee: 0,
-                totalPrice: 99,
-                tag: {
-                    text: "Economize R$ 75",
-                    color: "green"
-                },
-                isPopular: false
-            }
-        ];
-
-        // FAQ data stored as JSON
-        const faqData = [
-        {
-            question: "O que é o Tinder Gold?",
-            answer: "O Tinder Gold é uma assinatura premium que oferece recursos exclusivos como ver quem curtiu seu perfil antes de dar match, Super Likes toda semana, 1 Boost gratuito por mês, e controle sobre quem vê seu perfil, entre outros benefícios."
-        },
-        {
-            question: "Como funciona o pagamento?",
-            answer: "Após selecionar seu plano, você será direcionado para nossa página de pagamento. O valor será cobrado integralmente via PIX no momento da compra."
-        },
-        {
-            question: "Posso cancelar minha assinatura?",
-            answer: "Após a compra, o Gift Card não poderá ser cancelado ou reembolsado. No entanto, você pode optar por não renovar sua assinatura ao final do período contratado através das configurações da sua conta no aplicativo Tinder."
-        },
-        {
-            question: "Como ativo minha assinatura?",
-            answer: "Após a confirmação do pagamento, você receberá um código por WhatsApp. Basta acessar o site do Tinder e inserir o código recebido. Os benefícios serão ativados imediatamente."
-        },
-        {
-            question: "Qual a diferença entre Tinder Plus e Gold?",
-            answer: "O Tinder Gold inclui todos os benefícios do Tinder Plus (likes ilimitados, voltar atrás em swipes, sem anúncios) e adiciona recursos exclusivos como ver quem curtiu seu perfil antes de dar match e acesso a seleções diárias de perfis compatíveis."
-        },
-        {
-            question: "Posso usar em qualquer dispositivo?",
-            answer: "Sim, sua assinatura Tinder Gold está vinculada à sua conta e não ao dispositivo. Você pode acessar todos os benefícios em qualquer dispositivo onde fizer login com sua conta Tinder."
-        }
-    ];
-
-        // Function to create plan card HTML
-        function createPlanCard(plan, isFirstOfAll) {
-            const selectedClass = isFirstOfAll ? ' selected' : '';
-            const popularClass = plan.isPopular ? ' popular' : '';
-            const badgeHTML = plan.tag ? `<div class="badge ${plan.tag.color !== 'default' ? plan.tag.color : ''}">${plan.tag.text}</div>` : '';
-            
-            return `
-                <div class="plan-card${selectedClass}${popularClass}" data-id="${plan.id}" data-title="${plan.title}" data-price="${plan.totalPrice}" data-base-price="${plan.basePrice}" data-fee="${plan.fee}" onclick="selectPlan(this, ${plan.id})">
-                    ${badgeHTML}
-                    <div class="plan-card-content">
-                        <div class="plan-radio"></div>
-                        <div class="plan-info">
-                            <div class="plan-title">${plan.title}</div>
-                            <div class="plan-monthly">${plan.subtitle}</div>
-                        </div>
-                    </div>
-                    <div class="plan-price-section">
-                        <div class="plan-price">R$ ${plan.totalPrice}</div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Benefits data for each category
-        const benefitsData = {
-            gold: [
-                "Veja quem curtiu você",
-                "Novas Destaques todo dia",
-                "Super Likes toda semana",
-                "1 Boost gratuito por mês" ,
-                "E tudo que você adora no Tinder Plus®!"
-            ],
-            platinum: [
-                "Mande mensagem antes do match",
-                "Curtidas priorizadas",
-                "Veja as curtidas que enviou nos últimos 7 dias",
-                "E tudo que você adora no Tinder Gold™!"
-            ],
-            plus: [
-                "Curtidas ilimitadas",
-                "Toque em voltar quantas vezes quiser",
-                "Passaporte™ para qualquer lugar",
-                "Oculte anúncios",
-                "Usar Modo Anônimo"
-            ]
-        };
-
-        // Function to create benefits section HTML
-        function createBenefitsSection(category) {
-            const benefits = benefitsData[category] || benefitsData.ultimate;
-            
-            const benefitsHTML = benefits.map(benefit => `
-                <div class="benefit-item">
-                    <div class="benefit-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    <p class="benefit-text">${benefit}</p>
-                </div>
-            `).join('');
-            
-            return `
-                <div class="benefits-section">
-                    <h3 class="benefits-title">✨ O que está incluído:</h3>
-                    <div class="benefits-list">
-                        ${benefitsHTML}
-                    </div>
-                </div>
-            `;
-        }
-
-        // Function to load all categories
-        function loadAllCategories() {
-            const container = document.getElementById('categories-container');
-            const tabsContainer = document.getElementById('header-category-tabs');
-            let html = '';
-            let tabsHtml = '';
-            let isFirstPlanOfAll = true;
-            
-            categoriesData.forEach((category, categoryIndex) => {
-                const categoryPlans = plansData.filter(p => p.category === category.category);
-                const activeClass = categoryIndex === 0 ? ' active' : '';
-                
-                html += `
-                    <div class="category-section${activeClass}" data-category="${category.category}">
-                        <div class="category-header">
-                            <h2 class="section-title">${category.title}</h2>
-                            <p class="section-subtitle">Escolha seu plano e aproveite todos os benefícios</p>
-                        </div>
-                        <div class="plan-grid">
-                            ${categoryPlans.map(plan => {
-                                const card = createPlanCard(plan, isFirstPlanOfAll);
-                                if (isFirstPlanOfAll) isFirstPlanOfAll = false;
-                                return card;
-                            }).join('')}
-                        </div>
-                        ${createBenefitsSection(category.category)}
-                        <div class="category-footer">
-                            <p>Connect – Celulares e Informática Ltda<br>
-                            <a href="https://www.econodata.com.br/consulta-empresa/connect-celulares-e-informatica-ltda" target="_blank" rel="noopener noreferrer">CNPJ 43.701.700/0001-16</a></p>
-                        </div>
-                    </div>
-                `;
-                
-                // Create category tab with shorter names for header
-                const shortNames = {
-                    "Tinder Gold": "Gold",
-                    "Tinder Platinum": "Platinum",
-                    "Tinder Plus": "Plus"
-                };
-                const activeTabClass = categoryIndex === 0 ? ' active' : '';
-                tabsHtml += `<div class="header-category-tab${activeTabClass}" onclick="switchCategory('${category.category}')">${shortNames[category.title]}</div>`;
-            });
-            
-            container.innerHTML = html;
-            tabsContainer.innerHTML = tabsHtml;
-        }
-        
-        // Function to switch category
-        function switchCategory(categoryName) {
-            // Hide all category sections
-            document.querySelectorAll('.category-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Show selected category section
-            const selectedSection = document.querySelector(`.category-section[data-category="${categoryName}"]`);
-            if (selectedSection) {
-                selectedSection.classList.add('active');
-            }
-            
-            // Update tab active state in header
-            document.querySelectorAll('.header-category-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            event.target.classList.add('active');
-            
-            // Update selected plan in the bottom bar to the first plan of the new category
-            const firstPlanCard = selectedSection.querySelector('.plan-card');
-            if (firstPlanCard) {
-                // Remove selected from all
-                document.querySelectorAll('.plan-card').forEach(card => {
-                    card.classList.remove('selected');
-                });
-                // Select first of new category
-                firstPlanCard.classList.add('selected');
-                updateSelectedPlanDisplay();
-            }
-        }
-
-        // Function to load FAQ items
-        function loadFaqItems() {
-            const faqContainer = document.getElementById('faq-container');
-            faqContainer.innerHTML = '';
-            
-            faqData.forEach((item, index) => {
-                const faqItem = document.createElement('div');
-                faqItem.className = 'faq-item';
-                faqItem.onclick = function() { toggleFaq(this); };
-                
-                faqItem.innerHTML = `
-                    <div class="faq-question">
-                        <h3>${item.question}</h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </div>
-                    <div class="faq-answer">
-                        <p>${item.answer}</p>
-                    </div>
-                `;
-                
-                faqContainer.appendChild(faqItem);
-            });
-        }
-
-        // Load plans and FAQ when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            loadAllCategories();
-            loadFaqItems();
-            
-            // Bottom sheet functionality
-            const buyButton = document.getElementById('buy-button');
-            const termsSheet = document.getElementById('terms-sheet');
-            const backdrop = document.getElementById('backdrop');
-            const closeSheet = document.getElementById('close-sheet');
-            const confirmButton = document.getElementById('confirm-button');
-            
-            buyButton.addEventListener('click', function() {
-                termsSheet.classList.add('active');
-                backdrop.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-            
-            function closeBottomSheet() {
-                termsSheet.classList.remove('active');
-                backdrop.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-            
-            closeSheet.addEventListener('click', closeBottomSheet);
-            backdrop.addEventListener('click', closeBottomSheet);
-            
-            confirmButton.addEventListener('click', function() {
-                closeBottomSheet();
-                
-                const selectedPlan = document.querySelector('.plan-card.selected');
-                if (!selectedPlan) return;
-                
-                const totalPrice = selectedPlan.getAttribute('data-price');
-                const basePrice = selectedPlan.getAttribute('data-base-price');
-                const planId = selectedPlan.getAttribute('data-id');
-                
-                // Find the plan data to get category
-                const plan = plansData.find(p => p.id == planId);
-                if (!plan) return;
-                
-                // Get category full name
-                const categoryNames = {
-                    'gold': 'Tinder Gold',
-                    'platinum': 'Tinder Platinum',
-                    'plus': 'Tinder Plus'
-                };
-                
-                const categoryName = categoryNames[plan.category] || 'Xbox';
-                const productName = `${categoryName}`;
-                
-                const checkoutUrl = `https://connectstore.github.io/checkout?payment=${totalPrice}&product=${encodeURIComponent(productName)}&price=${basePrice}`;
-                
-                window.location.href = checkoutUrl;
-            });
+    <script>
+    	let WentOutToMakeThePayment = false;
+    
+    	document.addEventListener("visibilitychange", function() {
+        if (document.hidden) {
+         } else {
+         if (WentOutToMakeThePayment) {
+         document.getElementById("validateButton").style.display = "block";
+          } else {}
+         }
         });
+        
+        document.getElementById("shopee-btn").addEventListener("click", function () {
+        window.open("https://connectstore.centralcart.com.br/category/tinder", "_blank");
+        });
+  
+    	document.getElementById('wpp-btn').addEventListener('click', function() {
+            sendPaymentNotification();
+        });
+        
+    	 // Função para gerar e salvar a id se ela ainda não existir ou se já tiver expirado
+function getId() {
+    const storedData = localStorage.getItem("userId");
+    
+    if (storedData) {
+        const { id, expires } = JSON.parse(storedData);
+        const now = new Date().getTime();
 
-        function selectPlan(element, planId) {
-            // Remove selected class from all plan cards
-            document.querySelectorAll('.plan-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            
-            element.classList.add('selected');
-            updateSelectedPlanDisplay();
+        // Verifica se o id ainda é válido (dentro do período de 24 horas)
+        if (now < expires) {
+            return id; // Retorna o id existente
         }
-        
-        function updateSelectedPlanDisplay() {
-            const selectedPlan = document.querySelector('.plan-card.selected');
-            if (!selectedPlan) return;
+    }
+
+    // Caso contrário, gera um novo id e define o prazo de validade de 24 horas
+    const id = generateId();
+    const expires = new Date().getTime() + 24 * 60 * 60 * 1000; // 24 horas em milissegundos
+
+    // Salva o id e a data de expiração no localStorage
+    localStorage.setItem("userId", JSON.stringify({ id, expires }));
+
+    return id;
+}
+
+       let id = getId();
+
+        async function fetchPixData() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const product = urlParams.get('product') || 'Produto';
+            const item = urlParams.get('item') || 'Item';
+            const price = urlParams.get('price') || '0';
+            const payment = urlParams.get('payment') || '0';
             
-            const title = selectedPlan.getAttribute('data-title');
-            const price = selectedPlan.getAttribute('data-price');
+            document.querySelector('.product-name').textContent = product;
+            document.querySelector('.product-price').textContent = `R$ ${payment}`;
+
+            const description = `Pagamento do pedido ${id}`;
+            const pixUrl = `https://pix.ae?chave=43701700000116&tipo=cnpj&nome=Connect Celulares&info=${description}&valor=${payment}`;
             
-            document.getElementById('selected-plan-name').textContent = title;
-            document.getElementById('selected-plan-price').textContent = `R$ ${price}`;
-        }
-        
-        function toggleFaq(element) {
-            element.classList.toggle('active');
-        }
-        
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            document.getElementById(tabName + '-tab').classList.add('active');
-            
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            
-            const activeButton = document.querySelector(`.tab-button[onclick="switchTab('${tabName}')"]`);
-            activeButton.classList.add('active');
-            
-            const paymentBar = document.getElementById('payment-bar');
-            const categoryTabs = document.getElementById('header-category-tabs');
-            
-            if (tabName === 'plano') {
-                paymentBar.style.display = 'block';
-                categoryTabs.style.display = 'flex';
-            } else {
-                paymentBar.style.display = 'none';
-                categoryTabs.style.display = 'none';
+            try {
+                const response = await fetch(pixUrl, { method: 'POST' });
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    document.getElementById("qrCodeImage").src = data.qrbase64;
+                    document.getElementById("copyButton").onclick = () => copyToClipboard(data.qrstring);
+                } 
+            } catch (error) {
+                console.error("Erro ao obter QR Code:", error);
             }
         }
+
+        function hideSpinner() {
+            const spinner = document.getElementById("spinner");
+            const qrCodeImage = document.getElementById("qrCodeImage");
+
+            spinner.style.opacity = "0";
+            setTimeout(() => {
+                spinner.style.display = "none";
+                copyButton.style.display = "block";
+                qrCodeImage.style.display = "block";
+            }, 50);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Chave PIX copiada para a área de transferência!");
+                WentOutToMakeThePayment = true;
+            }).catch(err => {
+                console.error("Erro ao copiar o código:", err);
+                showToast("Erro ao copiar chave PIX.");
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+
+        function sendPaymentNotification() {
+       showToast("Por favor, aguarde um instante...");
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const product = document.querySelector('.product-name').textContent;
+    const price = urlParams.get('price') || '0';
+    const payment = urlParams.get('payment') || '0';
+    const fee = payment - price;
+    const message = `Novo pagamento identificado #${id}\n\nDetalhes do pedido\n1x R$ ${price} (${product})\n1x R$ ${fee} (Taxa de processamento)`;
+    const botAPI = '7545115815:AAH3stNlXkfuDTu4TQH0e4CZb09Amx57oQw';
+    const chatId = '-1002469985309';
+
+    // Verifica se a notificação já foi enviada para esse ID
+    if (localStorage.getItem(`notification_${id}`) === 'true') {
+    	validatePayment();
+        // Notificação ja enviada
+        return; // Impede o envio repetido
+    }
+
+    // Enviando a mensagem via BotAPI do Telegram
+    fetch(`https://api.telegram.org/bot${botAPI}/sendMessage`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            chat_id: chatId,
+            text: message
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.ok) {
+            // Salva no localStorage que a notificação foi enviada para esse ID
+            localStorage.setItem(`notification_${id}`, 'true');
+            validatePayment();
+        } else {
+            validatePayment();
+        }
+    })
+    .catch(error => {
+        validatePayment();
+    });
+}
+
+        function validatePayment() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const product = document.querySelector('.product-name').textContent;
+        const price = urlParams.get('price') || '0';
+        const payment = urlParams.get('payment') || '0';
+        const fee = payment - price;
+        const message = `Quero validar meu pagamento
+> #${id} 
+
+Detalhes do pedido
+1x R$ ${price} (${product})
+1x R$ ${fee} (Taxa de processamento)`;
+
+        window.open(`https://wa.me/+553398801838?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    function generateId() {
+            return Math.random().toString(36).substring(2, 8).toUpperCase();
+        }
+
+    window.onload = fetchPixData;
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c00a4e1a32ba67d',t:'MTc2ODc2NjA2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
